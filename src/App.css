@@ -1,5 +1,24 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "SB Sans Interface";
+}
+
+@font-face {
+  font-family: "SB Sans Interface";
+  src: local("SB Sans Interface"),
+    url("./assets/fonts/SB\ Sans\ Interface.ttf") format("opentype");
+}
+
 .App {
   text-align: center;
+  background: #f4f4f5;
+  display: flex;
+  justify-content: center;
+  padding-top: 24px;
+  width: 100vw;
+  height: 100vh;
 }
 
 .App-logo {

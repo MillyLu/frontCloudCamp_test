@@ -1,0 +1,11 @@
+.btn_start{
+    width: 79px;
+    height: 44px;
+    background: #5558FA;
+    border: #5558FA;
+    border-radius: 4px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
