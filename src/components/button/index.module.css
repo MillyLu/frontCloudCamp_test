@@ -9,3 +9,12 @@
     justify-content: center;
     align-items: center;
 }
+
+.btn_back{
+    width: 73px;
+height: 44px;
+border: 1.5px solid #5558FA;
+border-radius: 4px;
+color: #5558FA;
+background-color: #FFFFFF;
+}

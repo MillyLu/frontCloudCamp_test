@@ -1,13 +1,12 @@
 import React from "react";
-import { Main } from "./pages/main/Main";
-import { StepOne } from "./pages/step1/Step1";
+import { AppRoutes } from "./routes";
 
 import "./App.css";
 
 function App() {
   return (
     <div className="App">
-      <StepOne />
+      <AppRoutes />
     </div>
   );
 }
