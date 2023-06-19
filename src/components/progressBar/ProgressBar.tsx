@@ -1,10 +1,13 @@
 import React from "react";
 import "react-step-progress-bar/styles.css";
 import { ProgressBar, Step } from "react-step-progress-bar";
+
+import "react-step-progress-bar/styles.css";
 import styles from "./index.module.css";
 
 type Props = {
-  step: number;
+  page: number;
+  onPageNumberClick: (page: number) => void;
 };
 
 type PropsStep = {
@@ -12,76 +15,96 @@ type PropsStep = {
   index: number;
 };
 
-const MultiStepProgressBar = ({ step }: Props) => {
-  return (
-    <ProgressBar
-      percent={(step + 1) * 25}
-      filledBackground="#664de5"
-      height="2px"
-      style={{ margin: "auto" }}
-    >
-      <Step transition="scale">
-        {({ accomplished, index }: PropsStep) => (
-          <div
-            style={{
-              height: "15px",
-              width: "15px",
-              border: "1px solid lightgray",
-              borderRadius: "50%",
-              backgroundColor: `${accomplished ? "#664de5" : null}`,
-            }}
-            className={`step ${accomplished ? "completed" : null}`}
-          >
-            1
-          </div>
-        )}
-      </Step>
-      <Step transition="scale">
-        {({ accomplished, index }: PropsStep) => (
-          <div
-            style={{
-              height: "15px",
-              width: "15px",
-              border: "1px solid lightgray",
-              borderRadius: "50%",
-              backgroundColor: `${accomplished ? "#664de5" : null}`,
-            }}
-            className={`step ${accomplished ? "completed" : null}`}
-          >
-            2
-          </div>
-        )}
-      </Step>
-      <Step transition="scale">
-        {({ accomplished, index }: PropsStep) => (
-          <div
-            style={{
-              height: "15px",
-              width: "15px",
+const MultiStepProgressBar = ({ page, onPageNumberClick }: Props) => {
+  var stepPercentage = 0;
 
-              border: "1px solid lightgray",
-              borderRadius: "50%",
-              backgroundColor: `${accomplished ? "#664de5" : null}`,
-            }}
-            className={`step ${accomplished ? "completed" : null}`}
+  if (page === 1) {
+    stepPercentage = 0;
+  } else if (page === 2) {
+    stepPercentage = 50;
+  } else if (page === 3) {
+    stepPercentage = 100;
+  } else {
+    stepPercentage = 0;
+  }
+
+  return (
+    <ProgressBar percent={stepPercentage}>
+      <Step>
+        {({ accomplished, index }: PropsStep) => (
+          <div
+            className={
+              accomplished
+                ? styles.indexedStep_accomplished
+                : styles.indexedStep
+            }
           >
-            3
+            <span
+              className={
+                accomplished && page === 1
+                  ? styles.indexedStep_progress
+                  : accomplished
+                  ? styles.indexedStep_element
+                  : styles.indexedStep_empty
+              }
+            ></span>
+            <span
+              className={styles.indexedStep_number}
+              onClick={() => onPageNumberClick(1)}
+            >
+              {index + 1}
+            </span>
           </div>
         )}
       </Step>
-      <Step transition="scale">
+      <Step>
         {({ accomplished, index }: PropsStep) => (
           <div
-            style={{
-              height: "15px",
-              width: "15px",
-              border: "1px solid lightgray",
-              borderRadius: "50%",
-              backgroundColor: `${accomplished ? "#664de5" : null}`,
-            }}
-            className={`step ${accomplished ? "completed" : null}`}
+            className={
+              accomplished
+                ? styles.indexedStep_accomplished
+                : styles.indexedStep
+            }
+            // onClick={() => onPageNumberClick("2")}
           >
-            4
+            <span
+              className={
+                accomplished && page === 2
+                  ? styles.indexedStep_progress
+                  : accomplished
+                  ? styles.indexedStep_element
+                  : styles.indexedStep_empty
+              }
+            ></span>
+            <span
+              className={styles.indexedStep_number}
+              onClick={() => onPageNumberClick(2)}
+            >
+              {index + 1}{" "}
+            </span>
+          </div>
+        )}
+      </Step>
+      <Step>
+        {({ accomplished, index }: PropsStep) => (
+          <div
+            className={
+              accomplished
+                ? styles.indexedStep_accomplished
+                : styles.indexedStep
+            }
+            // onClick={() => onPageNumberClick("3")}
+          >
+            <span
+              className={
+                accomplished && page === 3
+                  ? styles.indexedStep_progress
+                  : accomplished
+                  ? styles.indexedStep_element
+                  : styles.indexedStep_empty
+              }
+            ></span>
+            <span className={styles.indexedStep_number}>{index + 1}</span>
           </div>
         )}
       </Step>
