@@ -104,7 +104,12 @@ const MultiStepProgressBar = ({ page, onPageNumberClick }: Props) => {
                   : styles.indexedStep_empty
               }
             ></span>
-            <span className={styles.indexedStep_number}>{index + 1}</span>
+            <span
+              className={styles.indexedStep_number}
+              onClick={() => onPageNumberClick(3)}
+            >
+              {index + 1}
+            </span>
           </div>
         )}
       </Step>

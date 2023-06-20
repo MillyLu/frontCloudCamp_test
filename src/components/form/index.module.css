@@ -73,3 +73,29 @@
 .form_input__checkbox {
   margin-right: 8px;
 }
+
+.form_about{
+    position: relative;
+}
+
+.form_about__text {
+  width: 680px;
+  height: 84px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  border-radius: 4px;
+  padding: 12px;
+  font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 20px;
+color: rgba(0, 0, 0, 0.48);
+}
+
+.form_about__counter {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    color: rgba(0, 0, 0, 0.48);
+    font-size: 10px;
+  }
