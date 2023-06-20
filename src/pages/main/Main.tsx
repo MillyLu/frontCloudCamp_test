@@ -6,14 +6,28 @@ import logo from "../../assets/Avatar.png";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import { setMain } from "../../store/userSlice";
 import { useNavigate } from "react-router-dom";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 type Inputs = {
   phone: string;
   email: string;
 };
 
+const schema = yup.object().shape({
+  phone: yup
+    .string()
+    .required("Phone is a required field")
+    //.matches(
+    //  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
+    //  "Wrong format"
+   // ) валидация номера телефона?
+    .required("Phone is a required field"),
+  email: yup.string().email().required("Email is a required field"),
+});
+
 export function Main() {
-  const userPhone = useAppSelector((state) => state.user.phone);
+  const userPhone = String(useAppSelector((state) => state.user.phone));
   const userMail = useAppSelector((state) => state.user.email);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -26,6 +40,7 @@ export function Main() {
       phone: userPhone || "",
       email: userMail || "",
     },
+    resolver: yupResolver(schema),
   });
 
   const onSubmit = (data: any) => {
