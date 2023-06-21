@@ -1,6 +1,6 @@
 import { Container } from "../../components/container/Container";
 import { Button } from "../../components/button/Button";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import styles from "./index.module.css";
 import logo from "../../assets/Avatar.png";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
@@ -8,6 +8,7 @@ import { setMain } from "../../store/userSlice";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import InputMask from "react-input-mask";
 
 type Inputs = {
   phone: string;
@@ -17,11 +18,10 @@ type Inputs = {
 const schema = yup.object().shape({
   phone: yup
     .string()
-    .required("Phone is a required field")
     //.matches(
-    //  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
-    //  "Wrong format"
-   // ) валидация номера телефона?
+    //  /^$| ^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
+    // "Phone should contain only numbers"
+    // )
     .required("Phone is a required field"),
   email: yup.string().email().required("Email is a required field"),
 });
@@ -44,6 +44,7 @@ export function Main() {
   });
 
   const onSubmit = (data: any) => {
+    console.log(data);
     dispatch(setMain(data));
     navigate("/form");
   };
@@ -78,19 +79,23 @@ export function Main() {
       </header>
       <hr className={styles.line}></hr>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <label className={styles.form_label} htmlFor="">
+        <label className={styles.form_label} htmlFor="phone">
           Номер телефона
         </label>
-        <input
+
+        <InputMask
+          id="phone"
           className={styles.form_input}
-          type="tel"
-          placeholder="+7 999 999-99-99"
           {...register("phone", { required: true })}
+          mask="+7 (999) 999-99-99"
+          name="phone"
         />
-        <label className={styles.form_label} htmlFor="">
+        <p className={styles.form_message}>{errors?.phone?.message}</p>
+        <label className={styles.form_label} htmlFor="email">
           Email
         </label>
         <input
+          id="email"
           className={styles.form_input}
           type="email"
           placeholder="tim.jennings@example.com"

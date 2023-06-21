@@ -8,6 +8,6 @@ type Props = {
 
 export function Button ({ title, name, onClick}: Props) {
     return(
-        <button className={name==="start" ? styles.btn_start : styles.btn_back}>{title}</button>
+        <button onClick={onClick} className={name==="start" ? styles.btn_start : styles.btn_back}>{title}</button>
     )
 }
