@@ -40,7 +40,7 @@ export function StepOne() {
         <MultiStepProgressBar page={page} onPageNumberClick={setPage} />
       </div>
 
-      <Form step={page} setStep={nextPage} />
+      <Form step={page} setStep={setPage} />
     </Container>
   );
 }

@@ -4,7 +4,7 @@ interface UserState {
   nickname: string;
   name: string;
   sername: string;
-  phone: number;
+  phone: string;
   email: string;
   sex: string;
   advantages: Array<string>;
@@ -17,7 +17,7 @@ const initialState: UserState = {
   nickname: "",
   name: "",
   sername: "",
-  phone: 0,
+  phone: "",
   email: "",
   sex: "",
   advantages: [],
@@ -40,6 +40,10 @@ export const userSlice = createSlice({
       state.name = action.payload.name;
       state.sername = action.payload.sername;
       state.sex = action.payload.sex;
+      state.advantages = action.payload.advantages;
+      state.checkbox = action.payload.checkbox;
+      state.radio = action.payload.radio;
+      state.about = action.payload.about;
     },
   },
 });
