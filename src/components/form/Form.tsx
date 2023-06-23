@@ -22,36 +22,6 @@ type Props = {
   setStep: (page: number) => void;
 };
 
-/*const schema = yup.object({
-    nickname: yup
-    .string()
-    .matches(
-      /^[a-zA-Z-а-яА-ЯёЁ0-9\s]+$/,
-      "Nickname should contain numbers/letters"
-    )
-    .max(30, "Must be exactly 30 digits")
-    .required("Nickname is a required field"),
-  name: yup
-    .string()
-    .matches(/^[a-zA-Z-а-яА-ЯёЁ\s]+$/, "Name should contain only letters")
-    .max(50, "Must be exactly 50 digits")
-    .required("Name is a required field"),
-  sername: yup
-    .string()
-    .matches(/^[a-zA-Z-а-яА-ЯёЁ\s]+$/, "Surname should contain only letters")
-    .max(50, "Must be exactly 50 digits")
-    .required("Surname is a required field"),
-  sex: yup.string().required("Sex is a required field"), // type?
-  advantages: yup.array().required("Advantages is a required field"), // добавить кнопку удаления/добавления поля
-  checkbox: yup.array().required("Checkbox is a required field"),
-  radio: yup.number().required("Radio is a required field"),
-  about: yup.string().required("About is a required field"),
-  });*/
-
-const formSchema = {
-  advantage: yup.string().required("Advantage is a required field"),
-};
-
 const schema = yup.object().shape({
   nickname: yup
     .string()
@@ -74,15 +44,18 @@ const schema = yup.object().shape({
   sex: yup.string().required("Sex is a required field"), // type?
   advantages: yup
     .array()
-    .of(yup.object().shape(formSchema))
-    .required("Must have fields")
-    .min(1, "Minimum of 1 field")
-    //  .array()
-    //  .of(idx: yup.string())
-    .required("Advantages is a required field"), // добавить кнопку удаления/добавления поля
-  // checkbox: yup.array().required("Checkbox is a required field"),
-  // radio: yup.number().required("Radio is a required field"),
-  about: yup.string().required("About is a required field"),
+    .of(
+      yup.object().shape({
+        advantage: yup.string().required("Advantage is required"),
+      })
+    )
+    .required("Advantages is a required field"),
+  checkbox: yup
+    .array()
+    .required("Checkbox is a required field")
+    .min(1, "Minimum of 1 field"),
+  radio: yup.string().required("Radio is a required field"),
+  about: yup.string().required("About is a required field").trim().max(200),
 });
 
 export interface IFormProps {}
@@ -97,8 +70,8 @@ export default function Form({ step, setStep }: Props) {
   console.log(userAdvantages);
 
   const [length, setLength] = useState(0);
-  const [newAdvantage, setNewAdvantage] = useState("");
-  const [ads, setAds] = useState(["", "", ""]);
+  //  const [newAdvantage, setNewAdvantage] = useState("");
+  // const [ads, setAds] = useState(["", "", ""]);
 
   const {
     register,
@@ -112,8 +85,8 @@ export default function Form({ step, setStep }: Props) {
       sername: userSername || "",
       sex: userSex || "",
       advantages: [{ advantage: "" }],
-      // checkbox: [],
-      // radio: undefined,
+      checkbox: [],
+      radio: "", ///?????
       about: "",
     },
     resolver: yupResolver(schema),
@@ -124,19 +97,13 @@ export default function Form({ step, setStep }: Props) {
     name: "advantages",
   });
 
-  /*const onSubmit: SubmitHandler<FormInputs> = (data) => {
-    console.log(data);
-    // dispatch(setFirstStep(data));
-  };*/
   const onSubmit = (data: any) => {
     console.log(data);
     dispatch(setFirstStep(data));
+    console.log(user);
   };
 
   const user = useAppSelector((state) => state.user);
-  console.log(user);
-
-  //console.log(watch("example")) // watch input value by passing the name of it
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
@@ -169,7 +136,7 @@ export default function Form({ step, setStep }: Props) {
             {...register("sername", { required: true })}
             placeholder="Surname"
           />
-          <p className={styles.form_message}></p>
+          <p className={styles.form_message}>{errors?.sername?.message}</p>
           <label htmlFor="sex" className={styles.form_label}>
             Sex
           </label>
@@ -177,6 +144,7 @@ export default function Form({ step, setStep }: Props) {
             {...register("sex", { required: true })}
             className={styles.form_select}
           >
+            <option value="">Не выбрано</option>
             <option value="man">man</option>
             <option value="woman">woman</option>
           </select>
@@ -186,7 +154,6 @@ export default function Form({ step, setStep }: Props) {
               title="Вперед"
               name="start"
               onClick={() => {
-                // не срабатывает
                 setStep(2);
                 console.log(step);
               }}
@@ -198,37 +165,100 @@ export default function Form({ step, setStep }: Props) {
         <div className={styles.stepOne}>
           <p className={styles.form_label}>Advantages</p>
 
-          {fields.map((item, index) => {
+          {fields.map((field, index) => {
             return (
-              <>
-                <label key={index}>
+              <div key={field.id}>
+                <label>
                   <input
-                    {...register(`advantages.${index}`)}
-                    name={`advantages[${index}].advantage`}
-                    defaultValue={`${item.advantage}`}
+                    {...register(`advantages.${index}.advantage`)}
                     type="text"
-                    className="form-check-input"
+                    className={styles.form_input}
                   />
                   <span className="mx-2"></span>
                 </label>
 
-                <button type="button" onClick={() => remove(index)}>
-                  Delete
-                </button>
-              </>
+                <button
+                  className={styles.btn_delete}
+                  type="button"
+                  onClick={() => remove(index)}
+                ></button>
+              </div>
             );
           })}
           <button
+            className={styles.btn_back}
             type="button"
             onClick={() => {
               append({ advantage: "" });
             }}
           >
-            append
+            ✚
           </button>
-          <Button title="+" name="back" />
-          <p className={styles.form_label}>Checkbox group</p>
+          <div className={styles.form_group}>
+            <p className={styles.form_label}>Checkbox group</p>
+            <label className={styles.form_checkbox}>
+              <input
+                className={styles.form_input__checkbox}
+                type="checkbox"
+                {...register("checkbox")}
+                value="1"
+              />
+              <span className={styles.form_label__checkbox}>1</span>
+            </label>
+            <label className={styles.form_checkbox}>
+              <input
+                className={styles.form_input__checkbox}
+                type="checkbox"
+                {...register("checkbox")}
+                value="2"
+              />
+              <span className={styles.form_label__checkbox}>2</span>
+            </label>
+            <label className={styles.form_checkbox}>
+              <input
+                className={styles.form_input__checkbox}
+                type="checkbox"
+                {...register("checkbox")}
+                value="3"
+              />
+              <span className={styles.form_label__checkbox}>3</span>
+            </label>
+          </div>
+          <div className={styles.form_group}>
+            <p className={styles.form_label}>Radio group</p>
+            <label className={styles.form_checkbox} htmlFor="option-1">
+              <input
+                className={styles.form_input__checkbox}
+                type="radio"
+                value="1"
+                id="option-1"
+                {...register("radio")}
+              />
+              <span className={styles.form_label__checkbox}>1</span>
+            </label>
 
+            <label className={styles.form_checkbox} htmlFor="option-2">
+              <input
+                className={styles.form_input__checkbox}
+                type="radio"
+                value="2"
+                id="option-2"
+                {...register("radio")}
+              />
+              <span className={styles.form_label__checkbox}>2</span>
+            </label>
+
+            <label className={styles.form_checkbox} htmlFor="option-3">
+              <input
+                className={styles.form_input__checkbox}
+                type="radio"
+                value="3"
+                id="option-3"
+                {...register("radio")}
+              />
+              <span className={styles.form_label__checkbox}>3</span>
+            </label>
+          </div>
           <div className={styles.form_btn__place}>
             <Button title="Назад" name="back" />
             <Button
@@ -258,8 +288,7 @@ export default function Form({ step, setStep }: Props) {
             />
             <p className={styles.form_about__counter}>{length}/200</p>
           </div>
-
-          <p className={styles.form_message}></p>
+          <p className={styles.form_message}>{errors?.about?.message}</p>
           <div className={styles.form_btn__place}>
             <Button title="Назад" name="back" />
             <Button title="Отправить" name="start" />

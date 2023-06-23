@@ -50,7 +50,7 @@ export function Main() {
   };
 
   return (
-    <Container>
+    <Container name="Main">
       <header className={styles.header}>
         <img className={styles.header_logo} src={logo} alt="logo" />
         <div className={styles.header_info}>
