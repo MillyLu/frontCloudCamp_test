@@ -1,9 +1,19 @@
-.container{
-    width: 900px;
-    height: 704px;
-    padding: 24px;
-    background: #FFFFFF;
-    border-radius: 12px 12px 0px 0px;
-    display: flex;
-    flex-direction: column;
+.container {
+  padding: 24px 24px 291px 24px;
+  background: #ffffff;
+  border-radius: 12px 12px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  width: 900px;
+  height: max-content;
+}
+
+.container_form {
+  padding: 110px 62px;
+  background: #ffffff;
+  border-radius: 12px 12px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  width: 900px;
+  height: max-content;
 }

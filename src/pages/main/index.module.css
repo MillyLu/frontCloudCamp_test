@@ -47,10 +47,12 @@
 }
 
 .form_label {
+  display: block;
   margin-bottom: 8px;
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
+text-align: start;
 }
 
 .form_input {
