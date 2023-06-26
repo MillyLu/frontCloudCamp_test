@@ -7,7 +7,8 @@ import { Modal } from "../../components/modal/Modal";
 
 export function StepOne() {
   const [page, setPage] = useState(1);
-  const [modal, setModal] = useState(true);
+  const [modal, setModal] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const nextPage = (page: number) => {
     setPage(page);
@@ -42,8 +43,9 @@ export function StepOne() {
         <MultiStepProgressBar page={page} onPageNumberClick={setPage} />
       </div>
 
-      <Form step={page} setStep={setPage} />
-      {modal && <Modal success="done" />}
+      <Form step={page} setStep={setPage} setSuccess={setSuccess} />
+      {modal && success && <Modal success="done" setModal={setModal} />}
+      {modal && !success && <Modal success="error" setModal={setModal} />}
     </Container>
   );
 }

@@ -20,6 +20,7 @@ type FormInputs = {
 type Props = {
   step: number;
   setStep: (page: number) => void;
+  setSuccess: (value: boolean) => void;
 };
 
 const schema = yup.object().shape({

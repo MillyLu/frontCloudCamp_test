@@ -11,11 +11,9 @@
 }
 
 .btn_start:hover {
-  transform: scale(1.02);
   background-color: white;
-  color:#5558fa;
+  color: #5558fa;
   border: 1.5px solid #5558fa;
-
 }
 
 .btn_back {
@@ -27,5 +25,7 @@
 }
 
 .btn_back:hover {
-  transform: scale(1.02);
+  background-color: #5558fa;
+  color: white;
+  border: 1.5px solid #5558fa;
 }

@@ -11,21 +11,25 @@
     opacity: 0;
     pointer-events: none;
     transition: 0.5s;
-  }
-  
-  .modal.active {
     opacity: 1;
     pointer-events: all;
   }
   
+  
   .modal_content {
     border-radius: 12px;
-    padding-bottom: 8px;
+    padding: 32px;
     background-color: #fff;
     height: auto;
     width: auto;
     transform: scale(0.5);
     transition: 0.4s all;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    justify-content: center;
+    align-items: center;
+
   }
   
   .modal_content.active {
@@ -34,11 +38,19 @@
 
   .modal_title{
     font-family: SB Sans Interface;
-font-size: 14px;
-font-weight: 400;
-line-height: 20px;
-letter-spacing: 0em;
-text-align: left;
+    font-weight: 600;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: 1E1E1E;
+  }
+  .modal_img{
+    padding: 26px 158px;
 
+  }
+
+  .modal_img_done{
+    width: 80px;
+    height: 80px;
   }
 
