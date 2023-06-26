@@ -1,26 +1,18 @@
 import styles from "./index.module.css";
-import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import { setFirstStep } from "../../store/userSlice";
 import { Button } from "../button/Button";
 import { useState } from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useNavigate } from "react-router-dom";
 
-type FormInputs = {
-  nickname: string;
-  name: string;
-  sername: string;
-  sex: string; // type?
-  advantages: string[];
-  checkbox: string[];
-  radio: number | undefined;
-  about: string;
-};
 type Props = {
   step: number;
   setStep: (page: number) => void;
   setSuccess: (value: boolean) => void;
+  setModal: (value: boolean) => void;
 };
 
 const schema = yup.object().shape({
@@ -61,14 +53,16 @@ const schema = yup.object().shape({
 
 export interface IFormProps {}
 
-export default function Form({ step, setStep }: Props) {
+export default function Form({ step, setStep, setModal, setSuccess }: Props) {
   const dispatch = useAppDispatch();
   const userNickname = useAppSelector((state) => state.user.nickname);
   const userName = useAppSelector((state) => state.user.name);
   const userSername = useAppSelector((state) => state.user.sername);
   const userSex = useAppSelector((state) => state.user.sex);
   const userAdvantages = useAppSelector((state) => state.user.advantages);
+
   console.log(userAdvantages);
+  const navigate = useNavigate();
 
   const [length, setLength] = useState(0);
   //  const [newAdvantage, setNewAdvantage] = useState("");
@@ -98,13 +92,44 @@ export default function Form({ step, setStep }: Props) {
     name: "advantages",
   });
 
+  const changeData = (array: any) => {
+    let arr1 = array.map((item: any) => Object.values(item).join());
+    return arr1;
+  };
+
+  const query = async (data: any) => {
+    const rawResponse = await fetch(
+      "https://api.sbercloud.ru/content/v1/bootcamp/frontend",
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
+    const response = await rawResponse.json();
+
+    console.log(response);
+    if (response.status === "success") {
+      setModal(true);
+      setSuccess(true);
+    } else {
+      setModal(true);
+    }
+  };
+
   const onSubmit = (data: any) => {
+    console.log(data.advantages);
+    data.advantages = changeData(data.advantages);
     console.log(data);
     dispatch(setFirstStep(data));
-    console.log(user);
+    query(user);
   };
 
   const user = useAppSelector((state) => state.user);
+  console.log(user);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
@@ -150,7 +175,7 @@ export default function Form({ step, setStep }: Props) {
             <option value="woman">woman</option>
           </select>
           <div className={styles.form_btn__place}>
-            <Button title="Назад" name="back" />
+            <Button title="Назад" name="back" onClick={() => navigate(-1)} />
             <Button
               title="Вперед"
               name="start"
@@ -261,7 +286,7 @@ export default function Form({ step, setStep }: Props) {
             </label>
           </div>
           <div className={styles.form_btn__place}>
-            <Button title="Назад" name="back" />
+            <Button title="Назад" name="back" onClick={() => setStep(1)} />
             <Button
               title="Вперед"
               name="start"
@@ -291,7 +316,7 @@ export default function Form({ step, setStep }: Props) {
           </div>
           <p className={styles.form_message}>{errors?.about?.message}</p>
           <div className={styles.form_btn__place}>
-            <Button title="Назад" name="back" />
+            <Button title="Назад" name="back" onClick={() => setStep(2)} />
             <Button title="Отправить" name="start" />
           </div>
         </div>

@@ -73,3 +73,22 @@ text-align: start;
 .form_input:last-of-type {
   margin-bottom: 48px;
 }
+
+@media (width: 320px) { 
+  .header{
+    gap: 12px;
+  }
+  .form_input{
+    width: 250px;
+  }
+ }
+
+
+ @media (min-width: 321px) and (max-width: 767px) {
+  .header{
+    gap: 12px;
+  }
+  .form_input{
+    width: 310px;
+  }
+ }
