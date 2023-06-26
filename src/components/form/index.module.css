@@ -140,3 +140,38 @@
   display: flex;
   flex-direction: row;
 }
+
+@media (width: 320px) {
+  .form {
+    width: 298px;
+  } 
+
+  .form_btn__place {
+
+    width: 298px;
+  }
+
+  .form_about__text {
+    width: 298px;
+  }
+
+ }
+
+
+
+ @media (min-width: 321px) and (max-width: 767px) {
+  .form {
+    width: 310px;
+  } 
+
+  .form_btn__place {
+
+    width: 310px;
+  }
+
+  .form_about__text {
+    width: 310px;
+  }
+
+ }
+

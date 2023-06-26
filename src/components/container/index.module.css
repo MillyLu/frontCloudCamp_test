@@ -17,3 +17,35 @@
   width: 900px;
   height: max-content;
 }
+
+@media (width: 320px) {
+  .container {
+    width: 100%;
+    height: auto;
+  }
+  .container_form {
+    width: 100%;
+  }
+}
+
+@media (min-width: 321px) and (max-width: 767px) {
+  .container {
+    width: 100%;
+    height: auto;
+  }
+  .container_form {
+    width: 100%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .container {
+    padding: 24px 24px 291px 24px;
+    width: 750px;
+  }
+
+  .container_form {
+    padding: 110px 62px;
+    width: 750px;
+  }
+}

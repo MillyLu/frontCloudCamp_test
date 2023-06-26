@@ -5,5 +5,16 @@
   align-self: center;
 }
 
-.step {
-}
+
+@media (width: 320px) { 
+  .progress{
+    width: 295px;
+  }
+ }
+
+
+ @media (min-width: 321px) and (max-width: 767px)  {
+  .progress{
+    width: 310px;
+  }
+ }

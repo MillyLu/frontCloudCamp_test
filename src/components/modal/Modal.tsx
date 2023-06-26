@@ -2,6 +2,7 @@ import { Button } from "../button/Button";
 import styles from "./index.module.css";
 import done from "../../assets/success.png";
 import error from "../../assets/cancel.png";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   success: string;
@@ -9,6 +10,8 @@ type Props = {
 };
 
 export function Modal({ success, setModal }: Props) {
+  const navigate = useNavigate();
+
   return (
     <div className={styles.modal}>
       <div className={styles.modal_content}>
@@ -22,7 +25,10 @@ export function Modal({ success, setModal }: Props) {
             <Button
               name="start"
               title="На главную"
-              onClick={() => console.log("object")}
+              onClick={() => {
+                setModal(false);
+                navigate("/");
+              }}
             />
           </>
         )}
